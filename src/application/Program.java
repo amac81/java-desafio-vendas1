@@ -63,17 +63,16 @@ public class Program {
 			
 			majorSalesPipeline.forEach(System.out::println);
 			
-			
+			//predicate 
+			Predicate <Sale> salePredicate = s -> (s.getSeller().equals("Logan") && (s.getMonth() == 1 || s.getMonth() == 7));  
 			
 			//pipeline para total vendido pelo vendedor Logan nos meses 1 e 7
 						
 			Double loganSales =	salesList.stream()
-					.filter(s -> s.getSeller().equals("Logan"))
-					.filter(s -> s.getMonth() == 1 || s.getMonth() == 7)
+					.filter(salePredicate)
 					.map(s -> s.getTotal())
 					.reduce(0.0, (s1, s2)-> s1 + s2);	
 			
-						
 			System.out.println();
 			System.out.printf("Valor total vendido pelo vendedor Logan nos meses 1 e 7 = %.2f\n", loganSales);
 			
