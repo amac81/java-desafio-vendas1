@@ -36,9 +36,14 @@ public class Sale {
 	public Double getTotal() {
 		return total;
 	}
+		
+	public Double averagePrice() {
+		return total / items;
+	}
 	
-	
-	
-	
-
+	@Override
+	public String toString() {
+		return month + "/" + year + ", " + seller + ", " + items +", " + total + ", pm = "
+				+ String.format("%.2f", averagePrice());
+	}
 }
