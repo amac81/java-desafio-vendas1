@@ -13,9 +13,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import entities.Sale;
 
@@ -45,7 +47,20 @@ public class Program {
 				fileLine = br.readLine();
 			}
 			
-			salesList.forEach(System.out::println);
+			System.out.println();
+			System.out.println("Cinco primeiras vendas de 2016 de preço médio: ");
+			
+			//Comparator
+			Comparator <Sale> saleComparator = (s1, s2) -> s1.averagePrice().compareTo(s2.averagePrice());
+			
+			//pipeline para 5 maiores pm de 2016
+			List<Sale> salesFiltered =  salesList.stream()
+					.filter(s -> s.getYear() == 2016)
+					.sorted(saleComparator.reversed())
+					.limit(5)
+					.collect(Collectors.toList());
+			
+			salesFiltered.forEach(System.out::println);
 	
 		} catch (IOException err) {
 			System.out.println("Erro: " + "(" + err.getMessage() + ")");
