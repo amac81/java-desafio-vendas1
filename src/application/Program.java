@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import entities.Sale;
@@ -54,13 +55,28 @@ public class Program {
 			Comparator <Sale> saleComparator = (s1, s2) -> s1.averagePrice().compareTo(s2.averagePrice());
 			
 			//pipeline para 5 maiores pm de 2016
-			List<Sale> salesFiltered =  salesList.stream()
+			List<Sale> majorSalesPipeline =  salesList.stream()
 					.filter(s -> s.getYear() == 2016)
 					.sorted(saleComparator.reversed())
 					.limit(5)
 					.collect(Collectors.toList());
 			
-			salesFiltered.forEach(System.out::println);
+			majorSalesPipeline.forEach(System.out::println);
+			
+			
+			
+			//pipeline para total vendido pelo vendedor Logan nos meses 1 e 7
+						
+			Double loganSales =	salesList.stream()
+					.filter(s -> s.getSeller().equals("Logan"))
+					.filter(s -> s.getMonth() == 1 || s.getMonth() == 7)
+					.map(s -> s.getTotal())
+					.reduce(0.0, (s1, s2)-> s1 + s2);	
+			
+						
+			System.out.println();
+			System.out.printf("Valor total vendido pelo vendedor Logan nos meses 1 e 7 = %.2f\n", loganSales);
+			
 	
 		} catch (IOException err) {
 			System.out.println("Erro: " + "(" + err.getMessage() + ")");
